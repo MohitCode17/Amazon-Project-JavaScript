@@ -63,7 +63,7 @@ cart.forEach((cartItem) => {
                 type="radio"
                 checked
                 class="delivery-option-input"
-                name="delivery-option-1"
+                name="delivery-option-${matchingProduct.id}"
                 />
                 <div>
                 <div class="delivery-option-date">Tuesday, June 21</div>
@@ -74,7 +74,7 @@ cart.forEach((cartItem) => {
                 <input
                 type="radio"
                 class="delivery-option-input"
-                name="delivery-option-1"
+                name="delivery-option-${matchingProduct.id}"
                 />
                 <div>
                 <div class="delivery-option-date">Wednesday, June 15</div>
@@ -85,7 +85,7 @@ cart.forEach((cartItem) => {
                 <input
                 type="radio"
                 class="delivery-option-input"
-                name="delivery-option-1"
+                name="delivery-option-${matchingProduct.id}"
                 />
                 <div>
                 <div class="delivery-option-date">Monday, June 13</div>
