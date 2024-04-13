@@ -7,7 +7,7 @@ Steps:-
 2. Take that quantity and update in cart quantity icon
 */
 
-import { cart } from "../data/cart.js";
+import { addToCart, calculateCartQuantity, cart } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let productsHTML = "";
@@ -71,37 +71,15 @@ document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
   button.addEventListener("click", () => {
     const { productId } = button.dataset;
 
-    let matchingProduct;
+    addToCart(productId);
+    updateCartQuantity();
 
-    cart.forEach((cartItem) => {
-      if (cartItem.productId === productId) {
-        matchingProduct = cartItem;
-      }
-    });
-
-    // Take quantity from select input
-    const selectInput = document.querySelector(
-      `.js-quantity-select-${productId}`
-    );
-    const quantity = Number(selectInput.value);
-
-    // Check for truthy value
-    if (matchingProduct) {
-      matchingProduct.quantity += quantity;
-    } else {
-      cart.push({
-        productId,
-        quantity: quantity,
-      });
-    }
-
-    // Make cart icon quantity dynamic
-    let totalQuantity = 0;
-
-    cart.forEach((cartItem) => {
-      totalQuantity += cartItem.quantity;
-    });
-
-    document.querySelector(".js-cart-quantity").innerHTML = totalQuantity;
+    console.log(cart);
   });
 });
+
+// 👉 Function: Update cart quantity
+function updateCartQuantity() {
+  const totalQuantity = calculateCartQuantity();
+  document.querySelector(".js-cart-quantity").innerHTML = totalQuantity;
+}
