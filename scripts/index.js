@@ -1,20 +1,13 @@
 /*
-👉 Make "Add to cart" interactive
+👉 Fixing duplicate product issue
 
-Steps to Follow:-
+When we click on to "Add to cart" button, product is added to the cart. But when we click on the same product button instead of increasing the quantity of that product it puts duplicate product into the cart. 
 
-1. Grab all the buttons using JS, Add event to it.
-2. Create Cart, When clicking to button product should added to cart
+Steps to fix:-
 
-💡 Cart is kind of an array, which stores all products in kind of object form
-
-🤔 Here we need to figuring out how do we know which product to add in cart ?
-
-We have products.js file and each product has its own unique id. We can put that id to button, to determine which product should added to cart
-
-Data Attribute:-
-- is just another HTML attribute
-- allows us to attach any information to an element
+1. Check if the product is already in the cart.
+2. If it's in the cart, increase the quantity
+3. If it's not in then add it to the cart
 */
 
 let productsHTML = "";
@@ -78,10 +71,24 @@ document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
   button.addEventListener("click", () => {
     const { productId } = button.dataset;
 
-    cart.push({
-      productId,
-      quantity: 1,
+    let matchingProduct;
+
+    cart.forEach((cartItem) => {
+      if (cartItem.productId === productId) {
+        matchingProduct = cartItem;
+      }
     });
+
+    // Check for truthy value
+    if (matchingProduct) {
+      matchingProduct.quantity += 1;
+    } else {
+      cart.push({
+        productId,
+        quantity: 1,
+      });
+    }
+
     console.log(cart);
   });
 });
