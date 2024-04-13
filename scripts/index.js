@@ -1,13 +1,5 @@
 /*
-👉 Fixing duplicate product issue
-
-When we click on to "Add to cart" button, product is added to the cart. But when we click on the same product button instead of increasing the quantity of that product it puts duplicate product into the cart. 
-
-Steps to fix:-
-
-1. Check if the product is already in the cart.
-2. If it's in the cart, increase the quantity
-3. If it's not in then add it to the cart
+👉 Make Quantity Select Input Interactive
 */
 
 let productsHTML = "";
@@ -37,7 +29,7 @@ products.forEach((product) => {
         </div>
 
         <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-select-${product.id}">
                 <option value="1" selected>1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -79,16 +71,21 @@ document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
       }
     });
 
+    // Take quantity from select input
+    const selectInput = document.querySelector(
+      `.js-quantity-select-${productId}`
+    );
+    const quantity = Number(selectInput.value);
+
     // Check for truthy value
     if (matchingProduct) {
-      matchingProduct.quantity += 1;
+      matchingProduct.quantity += quantity;
     } else {
       cart.push({
         productId,
-        quantity: 1,
+        quantity: quantity,
       });
     }
-
     console.log(cart);
   });
 });
