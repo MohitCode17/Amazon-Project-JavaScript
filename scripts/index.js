@@ -1,11 +1,20 @@
 /*
-👉 Create and display all products card in amazon home page using JavaScript
+👉 Make "Add to cart" interactive
 
 Steps to Follow:-
 
-1. Save data or information about products(Already done in products.js file)
-2. Generate the HTML for products card
-3. Make it interactive
+1. Grab all the buttons using JS, Add event to it.
+2. Create Cart, When clicking to button product should added to cart
+
+💡 Cart is kind of an array, which stores all products in kind of object form
+
+🤔 Here we need to figuring out how do we know which product to add in cart ?
+
+We have products.js file and each product has its own unique id. We can put that id to button, to determine which product should added to cart
+
+Data Attribute:-
+- is just another HTML attribute
+- allows us to attach any information to an element
 */
 
 let productsHTML = "";
@@ -54,10 +63,25 @@ products.forEach((product) => {
             Added
         </div>
 
-        <button class="add-to-cart-button  button-primary">Add to Cart</button>
+        <button class="add-to-cart-button button-primary js-add-to-cart-button" data-product-id=${
+          product.id
+        }>Add to Cart</button>
     </div>
   `;
 });
 
 // Render productsHTML into HTML element
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
+
+// 👉 Make "Add to cart" interactive
+document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
+  button.addEventListener("click", () => {
+    const { productId } = button.dataset;
+
+    cart.push({
+      productId,
+      quantity: 1,
+    });
+    console.log(cart);
+  });
+});
