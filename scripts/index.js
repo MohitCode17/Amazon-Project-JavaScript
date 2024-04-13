@@ -1,3 +1,12 @@
+/*
+👉 Make cart quantity icon on interactive (at amazon header)
+
+Steps:-
+
+1. Calculate the total quantity in cart
+2. Take that quantity and update in cart quantity icon
+*/
+
 import { cart } from "../data/cart.js";
 import { products } from "../data/products.js";
 
@@ -85,6 +94,14 @@ document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
         quantity: quantity,
       });
     }
-    console.log(cart);
+
+    // Make cart icon quantity dynamic
+    let totalQuantity = 0;
+
+    cart.forEach((cartItem) => {
+      totalQuantity += cartItem.quantity;
+    });
+
+    document.querySelector(".js-cart-quantity").innerHTML = totalQuantity;
   });
 });
