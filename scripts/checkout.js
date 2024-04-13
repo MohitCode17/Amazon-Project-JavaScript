@@ -8,7 +8,7 @@ Steps to Follow:-
 4. And display thoose products which match with id
 */
 
-import { cart } from "../data/cart.js";
+import { calculateCartQuantity, cart } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let orderSummaryHTML = "";
@@ -99,3 +99,13 @@ cart.forEach((cartItem) => {
 });
 
 document.querySelector(".js-order-summary").innerHTML = orderSummaryHTML;
+
+updateQuantity();
+
+// 👉 Function: Update quantity in checkout header
+function updateQuantity() {
+  const totalQuantity = calculateCartQuantity();
+  document.querySelector(
+    ".js-return-to-home-link"
+  ).innerHTML = `${totalQuantity} items`;
+}
