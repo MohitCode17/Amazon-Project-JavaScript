@@ -1,6 +1,4 @@
-/*
-👉 Make Quantity Select Input Interactive
-*/
+import { cart } from "../data/cart.js";
 
 let productsHTML = "";
 
