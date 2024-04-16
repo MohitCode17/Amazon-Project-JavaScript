@@ -1,14 +1,4 @@
-/*
-👉 Create HTML for order summary and display in checkout page using JavaScript
-
-Steps to Follow:-
-1. We'll loop through the cart and took all the products inside of it.
-2. We've product id and quantity inside the cart, We grab product id.
-3. Check that product id inside the products.js
-4. And display thoose products which match with id
-*/
-
-import { calculateCartQuantity, cart } from "../data/cart.js";
+import { calculateCartQuantity, cart, removeFromCart } from "../data/cart.js";
 import { products } from "../data/products.js";
 
 let orderSummaryHTML = "";
@@ -25,7 +15,9 @@ cart.forEach((cartItem) => {
   });
 
   orderSummaryHTML += `
-    <div class="cart-item-container">
+    <div class="cart-item-container js-cart-item-container-${
+      matchingProduct.id
+    }">
         <div class="delivery-date">Delivery date: Tuesday, June 21</div>
 
         <div class="cart-item-details-grid">
@@ -48,7 +40,9 @@ cart.forEach((cartItem) => {
                 <span class="update-quantity-link link-primary">
                 Update
                 </span>
-                <span class="delete-quantity-link link-primary">
+                <span class="delete-quantity-link link-primary js-delete-link" data-product-id=${
+                  matchingProduct.id
+                }>
                 Delete
                 </span>
             </div>
@@ -101,6 +95,19 @@ cart.forEach((cartItem) => {
 document.querySelector(".js-order-summary").innerHTML = orderSummaryHTML;
 
 updateQuantity();
+
+// 👉 Make Delete link interactive, when clicked product remove from cart
+document.querySelectorAll(".js-delete-link").forEach((link) => {
+  link.addEventListener("click", () => {
+    const { productId } = link.dataset;
+    removeFromCart(productId);
+
+    const itemContainer = document.querySelector(
+      `.js-cart-item-container-${productId}`
+    );
+    itemContainer.remove();
+  });
+});
 
 // 👉 Function: Update quantity in checkout header
 function updateQuantity() {
