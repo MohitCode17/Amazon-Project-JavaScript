@@ -39,9 +39,9 @@ cart.forEach((cartItem) => {
               matchingProduct.priceCents / 100
             ).toFixed(2)}</div>
             <div class="product-quantity">
-                <span> Quantity: <span class="quantity-label">${
-                  cartItem.quantity
-                }</span> </span>
+                <span> Quantity: <span class="quantity-label js-quantity-label-${
+                  matchingProduct.id
+                }">${cartItem.quantity}</span> </span>
                 <span class="update-quantity-link link-primary js-update-link" data-product-id=${
                   matchingProduct.id
                 }>
@@ -151,6 +151,14 @@ document.querySelectorAll(".js-save-link").forEach((link) => {
     );
     const newQuantityValue = Number(newQuantityInputElement.value);
     updateCartQuantity(productId, newQuantityValue);
+
+    let quantityLabel = document.querySelector(
+      `.js-quantity-label-${productId}`
+    );
+
+    quantityLabel.innerHTML = newQuantityValue;
+
+    updateCheckoutHeaderQuantity();
   });
 });
 
