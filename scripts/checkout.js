@@ -102,7 +102,7 @@ cart.forEach((cartItem) => {
 
 document.querySelector(".js-order-summary").innerHTML = orderSummaryHTML;
 
-updateQuantity();
+updateCheckoutHeaderQuantity();
 
 // 👉 Make Delete link interactive, when clicked product remove from cart
 document.querySelectorAll(".js-delete-link").forEach((link) => {
@@ -142,7 +142,7 @@ document.querySelectorAll(".js-save-link").forEach((link) => {
 });
 
 // 👉 Function: Update quantity in checkout header
-function updateQuantity() {
+function updateCheckoutHeaderQuantity() {
   const totalQuantity = calculateCartQuantity();
   document.querySelector(
     ".js-return-to-home-link"
