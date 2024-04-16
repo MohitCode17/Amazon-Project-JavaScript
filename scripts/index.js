@@ -1,12 +1,3 @@
-/*
-👉 Make cart quantity icon on interactive (at amazon header)
-
-Steps:-
-
-1. Calculate the total quantity in cart
-2. Take that quantity and update in cart quantity icon
-*/
-
 import { addToCart, calculateCartQuantity, cart } from "../data/cart.js";
 import { products } from "../data/products.js";
 
@@ -65,6 +56,7 @@ products.forEach((product) => {
 
 // Render productsHTML into HTML element
 document.querySelector(".js-products-grid").innerHTML = productsHTML;
+updateCartQuantity();
 
 // 👉 Make "Add to cart" interactive
 document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
