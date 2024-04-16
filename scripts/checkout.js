@@ -37,9 +37,17 @@ cart.forEach((cartItem) => {
                 <span> Quantity: <span class="quantity-label">${
                   cartItem.quantity
                 }</span> </span>
-                <span class="update-quantity-link link-primary">
+                <span class="update-quantity-link link-primary js-update-link" data-product-id=${
+                  matchingProduct.id
+                }>
                 Update
                 </span>
+
+                <input type="number" class="new-quantity-input" value="1">
+                <span class="save-quantity-link link-primary js-save-link" data-product-id=${
+                  matchingProduct.id
+                }>Save</span>
+
                 <span class="delete-quantity-link link-primary js-delete-link" data-product-id=${
                   matchingProduct.id
                 }>
@@ -106,6 +114,30 @@ document.querySelectorAll(".js-delete-link").forEach((link) => {
       `.js-cart-item-container-${productId}`
     );
     itemContainer.remove();
+  });
+});
+
+// 👉 Make update link interactive, when click new input box and save link should be display
+document.querySelectorAll(".js-update-link").forEach((link) => {
+  link.addEventListener("click", () => {
+    const { productId } = link.dataset;
+
+    const itemContainer = document.querySelector(
+      `.js-cart-item-container-${productId}`
+    );
+    itemContainer.classList.add("is-editing-quantity");
+  });
+});
+
+// 👉 Make save link interactive, when click new input box and save link should be hide & update link should be display
+document.querySelectorAll(".js-save-link").forEach((link) => {
+  link.addEventListener("click", () => {
+    const { productId } = link.dataset;
+
+    const itemContainer = document.querySelector(
+      `.js-cart-item-container-${productId}`
+    );
+    itemContainer.classList.remove("is-editing-quantity");
   });
 });
 
