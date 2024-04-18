@@ -9,32 +9,33 @@ import { products } from "../data/products.js";
 import { deliveryOptions } from "../data/deliveryOptions.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
-let orderSummaryHTML = "";
+function renderOrderSummary() {
+  let orderSummaryHTML = "";
 
-cart.forEach((cartItem) => {
-  const { productId, deliveryOptionId } = cartItem;
+  cart.forEach((cartItem) => {
+    const { productId, deliveryOptionId } = cartItem;
 
-  let matchingProduct;
+    let matchingProduct;
 
-  products.forEach((product) => {
-    if (product.id === productId) {
-      matchingProduct = product;
-    }
-  });
+    products.forEach((product) => {
+      if (product.id === productId) {
+        matchingProduct = product;
+      }
+    });
 
-  let deliveryOption;
+    let deliveryOption;
 
-  deliveryOptions.forEach((option) => {
-    if (option.id === deliveryOptionId) {
-      deliveryOption = option;
-    }
-  });
+    deliveryOptions.forEach((option) => {
+      if (option.id === deliveryOptionId) {
+        deliveryOption = option;
+      }
+    });
 
-  const today = dayjs();
-  const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
-  const dateString = deliveryDate.format("dddd MMMM, DD");
+    const today = dayjs();
+    const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
+    const dateString = deliveryDate.format("dddd MMMM, DD");
 
-  orderSummaryHTML += `
+    orderSummaryHTML += `
     <div class="cart-item-container js-cart-item-container-${
       matchingProduct.id
     }">
@@ -87,85 +88,85 @@ cart.forEach((cartItem) => {
         </div>
     </div>
   `;
-});
-
-document.querySelector(".js-order-summary").innerHTML = orderSummaryHTML;
-
-updateCheckoutHeaderQuantity();
-
-// 👉 Make Delete link interactive, when clicked product remove from cart
-document.querySelectorAll(".js-delete-link").forEach((link) => {
-  link.addEventListener("click", () => {
-    const { productId } = link.dataset;
-    removeFromCart(productId);
-
-    const itemContainer = document.querySelector(
-      `.js-cart-item-container-${productId}`
-    );
-    itemContainer.remove();
-
-    updateCheckoutHeaderQuantity();
   });
-});
 
-// 👉 Make update link interactive, when click new input box and save link should be display
-document.querySelectorAll(".js-update-link").forEach((link) => {
-  link.addEventListener("click", () => {
-    const { productId } = link.dataset;
+  document.querySelector(".js-order-summary").innerHTML = orderSummaryHTML;
 
-    const itemContainer = document.querySelector(
-      `.js-cart-item-container-${productId}`
-    );
-    itemContainer.classList.add("is-editing-quantity");
+  updateCheckoutHeaderQuantity();
+
+  // 👉 Make Delete link interactive, when clicked product remove from cart
+  document.querySelectorAll(".js-delete-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      const { productId } = link.dataset;
+      removeFromCart(productId);
+
+      const itemContainer = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
+      itemContainer.remove();
+
+      updateCheckoutHeaderQuantity();
+    });
   });
-});
 
-// 👉 Make save link interactive, when click new input box and save link should be hide & update link should be display
-document.querySelectorAll(".js-save-link").forEach((link) => {
-  link.addEventListener("click", () => {
-    const { productId } = link.dataset;
+  // 👉 Make update link interactive, when click new input box and save link should be display
+  document.querySelectorAll(".js-update-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      const { productId } = link.dataset;
 
-    const itemContainer = document.querySelector(
-      `.js-cart-item-container-${productId}`
-    );
-    itemContainer.classList.remove("is-editing-quantity");
-
-    const newQuantityInputElement = document.querySelector(
-      `.js-new-quantity-input-${productId}`
-    );
-    const newQuantityValue = Number(newQuantityInputElement.value);
-    updateCartQuantity(productId, newQuantityValue);
-
-    let quantityLabel = document.querySelector(
-      `.js-quantity-label-${productId}`
-    );
-
-    quantityLabel.innerHTML = newQuantityValue;
-
-    updateCheckoutHeaderQuantity();
+      const itemContainer = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
+      itemContainer.classList.add("is-editing-quantity");
+    });
   });
-});
 
-// 👉 Function to render delivery options
-function renderDeliveryOptions(matchingProductId, deliveryOptionId) {
-  let html = "";
+  // 👉 Make save link interactive, when click new input box and save link should be hide & update link should be display
+  document.querySelectorAll(".js-save-link").forEach((link) => {
+    link.addEventListener("click", () => {
+      const { productId } = link.dataset;
 
-  deliveryOptions.forEach((deliveryOption) => {
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
-    const dateString = deliveryDate.format("dddd MMMM, DD");
+      const itemContainer = document.querySelector(
+        `.js-cart-item-container-${productId}`
+      );
+      itemContainer.classList.remove("is-editing-quantity");
 
-    const deliveryPriceString =
-      deliveryOption.deliveryPriceCents === 0
-        ? "FREE"
-        : `$${(deliveryOption.deliveryPriceCents / 100).toFixed(2)}`;
+      const newQuantityInputElement = document.querySelector(
+        `.js-new-quantity-input-${productId}`
+      );
+      const newQuantityValue = Number(newQuantityInputElement.value);
+      updateCartQuantity(productId, newQuantityValue);
 
-    const isChecked = deliveryOption.id === deliveryOptionId;
+      let quantityLabel = document.querySelector(
+        `.js-quantity-label-${productId}`
+      );
 
-    html += `
+      quantityLabel.innerHTML = newQuantityValue;
+
+      updateCheckoutHeaderQuantity();
+    });
+  });
+
+  // 👉 Function to render delivery options
+  function renderDeliveryOptions(matchingProductId, deliveryOptionId) {
+    let html = "";
+
+    deliveryOptions.forEach((deliveryOption) => {
+      const today = dayjs();
+      const deliveryDate = today.add(deliveryOption.deliveryDays, "days");
+      const dateString = deliveryDate.format("dddd MMMM, DD");
+
+      const deliveryPriceString =
+        deliveryOption.deliveryPriceCents === 0
+          ? "FREE"
+          : `$${(deliveryOption.deliveryPriceCents / 100).toFixed(2)}`;
+
+      const isChecked = deliveryOption.id === deliveryOptionId;
+
+      html += `
     <div class="delivery-option js-delivery-option" data-product-id=${matchingProductId} data-delivery-option-id=${
-      deliveryOption.id
-    }>
+        deliveryOption.id
+      }>
       <input
         type="radio"
         ${isChecked && "checked"}
@@ -178,23 +179,28 @@ function renderDeliveryOptions(matchingProductId, deliveryOptionId) {
       </div>
     </div>
     `;
+    });
+
+    return html;
+  }
+
+  // 👉 Make delivery option interactive
+  document.querySelectorAll(".js-delivery-option").forEach((deliveryOption) => {
+    deliveryOption.addEventListener("click", () => {
+      const { productId, deliveryOptionId } = deliveryOption.dataset;
+      updateDeliveryOption(productId, deliveryOptionId);
+
+      renderOrderSummary();
+    });
   });
 
-  return html;
+  // 👉 Function: Update quantity in checkout header
+  function updateCheckoutHeaderQuantity() {
+    const totalQuantity = calculateCartQuantity();
+    document.querySelector(
+      ".js-return-to-home-link"
+    ).innerHTML = `${totalQuantity} items`;
+  }
 }
 
-// 👉 Make delivery option interactive
-document.querySelectorAll(".js-delivery-option").forEach((deliveryOption) => {
-  deliveryOption.addEventListener("click", () => {
-    const { productId, deliveryOptionId } = deliveryOption.dataset;
-    updateDeliveryOption(productId, deliveryOptionId);
-  });
-});
-
-// 👉 Function: Update quantity in checkout header
-function updateCheckoutHeaderQuantity() {
-  const totalQuantity = calculateCartQuantity();
-  document.querySelector(
-    ".js-return-to-home-link"
-  ).innerHTML = `${totalQuantity} items`;
-}
+renderOrderSummary();
