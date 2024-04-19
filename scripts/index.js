@@ -66,7 +66,6 @@ document.querySelectorAll(".js-add-to-cart-button").forEach((button) => {
     addToCart(productId);
     updateCartIconQuantity();
     displayAddedToCartMessage(productId);
-    console.log(cart);
   });
 });
 

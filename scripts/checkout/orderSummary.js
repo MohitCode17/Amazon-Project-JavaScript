@@ -10,6 +10,7 @@ import {
   deliveryOptions,
   getDeliveryOption,
 } from "../../data/deliveryOptions.js";
+import { renderPaymentSummary } from "./paymentSummary.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
 
 export function renderOrderSummary() {
@@ -96,6 +97,7 @@ export function renderOrderSummary() {
       itemContainer.remove();
 
       updateCheckoutHeaderQuantity();
+      renderPaymentSummary();
     });
   });
 
@@ -132,8 +134,8 @@ export function renderOrderSummary() {
       );
 
       quantityLabel.innerHTML = newQuantityValue;
-
       updateCheckoutHeaderQuantity();
+      renderPaymentSummary();
     });
   });
 
@@ -181,6 +183,7 @@ export function renderOrderSummary() {
       updateDeliveryOption(productId, deliveryOptionId);
 
       renderOrderSummary();
+      renderPaymentSummary();
     });
   });
 
