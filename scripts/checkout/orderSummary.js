@@ -12,6 +12,7 @@ import {
 } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
+import { formatMoney } from "../../utils/formatMoney.js";
 
 export function renderOrderSummary() {
   let orderSummaryHTML = "";
@@ -42,9 +43,9 @@ export function renderOrderSummary() {
               <div class="product-name">
                  ${matchingProduct.name}
               </div>
-              <div class="product-price">$${(
-                matchingProduct.priceCents / 100
-              ).toFixed(2)}</div>
+              <div class="product-price">$${formatMoney(
+                matchingProduct.priceCents
+              )}</div>
               <div class="product-quantity">
                   <span> Quantity: <span class="quantity-label js-quantity-label-${
                     matchingProduct.id
@@ -151,7 +152,7 @@ export function renderOrderSummary() {
       const deliveryPriceString =
         deliveryOption.deliveryPriceCents === 0
           ? "FREE"
-          : `$${(deliveryOption.deliveryPriceCents / 100).toFixed(2)}`;
+          : `$${formatMoney(deliveryOption.deliveryPriceCents)}`;
 
       const isChecked = deliveryOption.id === deliveryOptionId;
 
