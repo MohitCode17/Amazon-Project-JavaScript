@@ -1,4 +1,4 @@
-import { formatMoney } from "../utils/formatMoney.js";
+import { formatMoney } from "../../utils/formatMoney.js";
 
 // Creating a group of spec(test) called suite
 describe("test suite: formatMoney", () => {

@@ -12,7 +12,7 @@ import {
 } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
 import dayjs from "https://unpkg.com/dayjs@1.11.10/esm/index.js";
-import { formatMoney } from "../../utils/formatMoney.js";
+import { formatMoney } from "../utils/formatMoney.js";
 
 export function renderOrderSummary() {
   let orderSummaryHTML = "";
